@@ -47,14 +47,15 @@ function reportInfo() {
 function createCountryList(countrys) {
   clearList();
   for (const country of countrys) {
-    const countryCard = `<li><img src="${country.flags.svg}" alt="flag of${country.name.official}" width="40px"><p>${country.name.official}</p></li>`;
+    const countryCard = `<li><img src="${country.flags.svg}" 
+    alt="flag of${country.name.official}"width="40px" >
+    <p>${country.name.official}</p></li>`;
     listCountrys.insertAdjacentHTML('afterbegin', countryCard);
   }
 }
 
 function createCountryInfo(countrys) {
-  clearList();
-  console.log('one country');
+  clearList();  
   for (const country of countrys) {
     const countryCard = `<div><img src="${country.flags.svg}" alt="flag of${
       country.name.official

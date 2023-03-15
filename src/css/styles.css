@@ -38,11 +38,12 @@ ul {
 .country-info div{
   display: flex;
   font-weight: 600;
+  align-items: center;
 }
 
 .country-info div img {
   margin-right: 20px;
-  align-items: center;
+  
 }
 
 .country-info div p {
