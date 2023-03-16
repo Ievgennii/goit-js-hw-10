@@ -1,6 +1,7 @@
 import './css/styles.css';
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
+import API from './api-service';
 
 const DEBOUNCE_DELAY = 300;
 
@@ -12,19 +13,11 @@ inputRef.addEventListener('input', debounce(onInputChange, DEBOUNCE_DELAY));
 
 function onInputChange(e) {
   if (inputRef.value.length > 0) {
-    fetchCountries(e.target.value).then(checkingCountrysLenght).catch(showError);
+    API.fetchCountries(e.target.value).then(checkingCountrysLenght).catch(showError);
   }
   clearList();
 }
 
-function fetchCountries(name) {
-  const get = `https://restcountries.com/v3.1/name/${name.trim()}?fields=name,capital,population,flags,languages`;
-  return fetch(get).then(returnJoin);
-}
-
-function returnJoin(response) {
-  return response.json();
-}
 
 function checkingCountrysLenght(countrys) {
   if (countrys.length > 10) {
