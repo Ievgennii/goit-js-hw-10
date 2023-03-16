@@ -12,29 +12,28 @@ inputRef.addEventListener('input', debounce(onInputChange, DEBOUNCE_DELAY));
 
 function onInputChange(e) {
   if (inputRef.value.length > 0) {
-    fetchCountries(e.target.value);
+    fetchCountries(e.target.value).then(checkingCountrysLenght).catch(showError);
   }
   clearList();
 }
 
 function fetchCountries(name) {
   const get = `https://restcountries.com/v3.1/name/${name.trim()}?fields=name,capital,population,flags,languages`;
-  fetch(get)
-    .then(response => {
-      return response.json();
-    })
-    .then(countrys => {
-      if (countrys.length > 10) {
-        reportInfo();
-      } else if (countrys.length > 2 && countrys.length <= 10) {
-        createCountryList(countrys);
-      } else if ((countrys.length = 1)) {
-        createCountryInfo(countrys);
-      }
-    })
-    .catch(error => {
-      showError(error);
-    });
+  return fetch(get).then(returnJoin);
+}
+
+function returnJoin(response) {
+  return response.json();
+}
+
+function checkingCountrysLenght(countrys) {
+  if (countrys.length > 10) {
+    reportInfo();
+  } else if (countrys.length > 2 && countrys.length <= 10) {
+    createCountryList(countrys);
+  } else if ((countrys.length = 1)) {
+    createCountryInfo(countrys);
+  }
 }
 
 function reportInfo() {
@@ -55,7 +54,7 @@ function createCountryList(countrys) {
 }
 
 function createCountryInfo(countrys) {
-  clearList();  
+  clearList();
   for (const country of countrys) {
     const countryCard = `<div><img src="${country.flags.svg}" alt="flag of${
       country.name.official
@@ -63,7 +62,9 @@ function createCountryInfo(countrys) {
     <ul>
     <li>capital: <span>${country.capital.join(', ')}</span> </li>
     <li>population: <span>${country.population}</span> </li>
-    <li>languages: <span>${Object.values(country.languages).join(', ')}</span> </li>
+    <li>languages: <span>${Object.values(country.languages).join(
+      ', '
+    )}</span> </li>
     </ul>`;
     countryInfo.insertAdjacentHTML('afterbegin', countryCard);
   }
